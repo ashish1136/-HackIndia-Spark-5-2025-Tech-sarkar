@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarkari Charity Foundation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+</head>
+<style>/* Base Styles */
+    :root {
+        --primary: #1e50ff;
+        --primary-dark: #0a2db5;
+        --secondary: #00c389;
+        --dark: #1a1a1a;
+        --light: #f8f9fa;
+        --gray: #6c757d;
+        --light-gray: #e9ecef;
+        --white: #ffffff;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --border-radius: 8px;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: 'Inter', sans-serif;
+        color: var(--dark);
+        line-height: 1.6;
+        background-color: var(--light);
+    }
+    
+    .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    section {
+        padding: 80px 0;
+    }
+    
+    .section-title {
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+        text-align: center;
+        color: var(--dark);
+    }
+    
+    .btn {
+        display: inline-block;
+        padding: 12px 24px;
+        border-radius: var(--border-radius);
+        font-weight: 500;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+    }
+    
+    .btn-primary {
+        background-color: var(--primary);
+        color: var(--white);
+    }
+    
+    .btn-primary:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+    }
+    
+    .btn-secondary {
+        background-color: var(--secondary);
+        color: var(--white);
+    }
+    
+    .btn-secondary:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+    }
+    
+    .btn-small {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+    
+    /* Navigation */
+    .navbar {
+        background-color: var(--white);
+        box-shadow: var(--shadow);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        padding: 20px 0;
+    }
+    
+    .navbar .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--dark);
+        text-decoration: none;
+    }
+    
+    .logo span {
+        color: var(--primary);
+    }
+    
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+    }
+    
+    .nav-links a {
+        text-decoration: none;
+        color: var(--dark);
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+    
+    .nav-links a:hover {
+        color: var(--primary);
+    }
+    
+    .wallet-connect {
+        background-color: var(--primary);
+        color: var(--white);
+    }
+    
+    .hamburger {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--dark);
+    }
+    
+    /* Hero Section */
+    .hero {
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        color: var(--white);
+        padding: 180px 0 100px;
+        margin-top: 60px;
+    }
+    
+    .hero .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 40px;
+    }
+    
+    .hero-content {
+        flex: 1;
+    }
+    
+    .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        line-height: 1.2;
+    }
+    
+    .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        max-width: 600px;
+    }
+    
+    .hero-buttons {
+        display: flex;
+        gap: 20px;
+    }
+    
+    .hero-stats {
+        display: flex;
+        gap: 30px;
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: var(--border-radius);
+        backdrop-filter: blur(10px);
+    }
+    
+    .stat-item {
+        text-align: center;
+    }
+    
+    .stat-item h3 {
+        font-size: 2.5rem;
+        margin-bottom: 5px;
+    }
+    
+    .stat-item p {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+    
+    /* About Section */
+    .about-content {
+        display: flex;
+        gap: 50px;
+        align-items: center;
+    }
+    
+    .about-text {
+        flex: 1;
+    }
+    
+    .about-image {
+        flex: 1;
+    }
+    
+    .about-image img {
+        width: 100%;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+    }
+    
+    .about-features {
+        margin: 20px 0;
+        list-style: none;
+    }
+    
+    .about-features li {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .about-features i {
+        color: var(--secondary);
+        margin-right: 10px;
+    }
+    
+    /* Projects Section */
+    .project-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 30px;
+        margin-bottom: 40px;
+    }
+    
+    .project-card {
+        background-color: var(--white);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: transform 0.3s ease;
+    }
+    
+    .project-card:hover {
+        transform: translateY(-10px);
+    }
+    
+    .project-image {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+    }
+    
+    .project-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .project-card:hover .project-image img {
+        transform: scale(1.05);
+    }
+    
+    .project-category {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background-color: var(--primary);
+        color: var(--white);
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+    
+    .project-details {
+        padding: 20px;
+    }
+    
+    .project-details h3 {
+        margin-bottom: 10px;
+        font-size: 1.3rem;
+    }
+    
+    .project-details p {
+        color: var(--gray);
+        margin-bottom: 20px;
+        font-size: 0.95rem;
+    }
+    
+    .progress-bar {
+        height: 8px;
+        background-color: var(--light-gray);
+        border-radius: 4px;
+        margin-bottom: 10px;
+        overflow: hidden;
+    }
+    
+    .progress-fill {
+        height: 100%;
+        background-color: var(--secondary);
+        border-radius: 4px;
+    }
+    
+    .progress-stats {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85rem;
+        color: var(--gray);
+        margin-bottom: 20px;
+    }
+    
+    .section-footer {
+        text-align: center;
+    }
+    
+    /* Donation Section */
+    .donation-options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+    }
+    
+    .donation-card {
+        background-color: var(--white);
+        border-radius: var(--border-radius);
+        padding: 30px;
+        box-shadow: var(--shadow);
+    }
+    
+    .donation-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .donation-card p {
+        color: var(--gray);
+        margin-bottom: 30px;
+    }
+    
+    .crypto-options {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+    
+    .crypto-option {
+        border: 1px solid var(--light-gray);
+        border-radius: var(--border-radius);
+        padding: 10px 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .crypto-option:hover {
+        border-color: var(--primary);
+    }
+    
+    .crypto-option.active {
+        border-color: var(--primary);
+        background-color: rgba(30, 80, 255, 0.1);
+    }
+    
+    .crypto-option img {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .wallet-address {
+        background-color: var(--light-gray);
+        padding: 20px;
+        border-radius: var(--border-radius);
+    }
+    
+    .address-box {
+        display: flex;
+        align-items: center;
+        background-color: var(--white);
+        padding: 10px 15px;
+        border-radius: var(--border-radius);
+        margin: 10px 0;
+    }
+    
+    .address-box code {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-family: monospace;
+    }
+    
+    .btn-copy {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--primary);
+        font-size: 1.1rem;
+    }
+    
+    .donation-form .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .donation-form label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+    }
+    
+    .donation-form input,
+    .donation-form select {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid var(--light-gray);
+        border-radius: var(--border-radius);
+        font-family: inherit;
+    }
+    
+    /* Transparency Section */
+    .transparency-content {
+        display: flex;
+        gap: 50px;
+        align-items: center;
+    }
+    
+    .transparency-text {
+        flex: 1;
+    }
+    
+    .transparency-image {
+        flex: 1;
+    }
+    
+    .transparency-image img {
+        width: 100%;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+    }
+    
+    .transparency-stats {
+        display: flex;
+        gap: 30px;
+        margin: 30px 0;
+    }
+    
+    .transparency-stats .stat-item {
+        text-align: center;
+    }
+    
+    .transparency-stats h4 {
+        font-size: 2rem;
+        color: var(--primary);
+        margin-bottom: 5px;
+    }
+    
+    /* Footer */
+    .footer {
+        background-color: var(--dark);
+        color: var(--white);
+        padding: 60px 0 20px;
+    }
+    
+    .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        margin-bottom: 40px;
+    }
+    
+    .footer-col h4 {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        color: var(--white);
+    }
+    
+    .footer-col p {
+        margin-bottom: 20px;
+        opacity: 0.8;
+    }
+    
+    .footer-col ul {
+        list-style: none;
+    }
+    
+    .footer-col ul li {
+        margin-bottom: 10px;
+    }
+    
+    .footer-col ul li a {
+        color: var(--white);
+        opacity: 0.8;
+        text-decoration: none;
+        transition: opacity 0.3s ease;
+    }
+    
+    .footer-col ul li a:hover {
+        opacity: 1;
+    }
+    
+    .footer-col ul li i {
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+    }
+    
+    .social-links {
+        display: flex;
+        gap: 15px;
+    }
+    
+    .social-links a {
+        color: var(--white);
+        font-size: 1.2rem;
+        opacity: 0.8;
+        transition: opacity 0.3s ease;
+    }
+    
+    .social-links a:hover {
+        opacity: 1;
+    }
+    
+    .footer-bottom {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        opacity: 0.7;
+        font-size: 0.9rem;
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 992px) {
+        .hero .container {
+            flex-direction: column;
+            text-align: center;
+        }
+    
+        .hero-buttons {
+            justify-content: center;
+        }
+    
+        .hero-content p {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    
+        .about-content,
+        .transparency-content {
+            flex-direction: column;
+        }
+    
+        .donation-options {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .nav-links {
+            display: none;
+        }
+    
+        .hamburger {
+            display: block;
+        }
+    
+        .hero h1 {
+            font-size: 2.5rem;
+        }
+    
+        .hero-stats {
+            flex-direction: column;
+            width: 100%;
+        }
+    
+        .section-title {
+            font-size: 2rem;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .hero-buttons {
+            flex-direction: column;
+            gap: 15px;
+        }
+    
+        .project-grid {
+            grid-template-columns: 1fr;
+        }
+        /* Payment Section Enhancements */
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--gray);
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.wallet-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.wallet-provider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    border: 1px solid var(--light-gray);
+    border-radius: var(--border-radius);
+    background: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.wallet-provider:hover {
+    border-color: var(--primary);
+    background-color: rgba(30, 80, 255, 0.05);
+}
+
+.wallet-provider img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 10px;
+}
+
+.qr-code-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#qr-code {
+    display: inline-block;
+    padding: 10px;
+    background: white;
+    border-radius: var(--border-radius);
+    margin-bottom: 10px;
+}
+
+.qr-instruction {
+    font-size: 0.9rem;
+    color: var(--gray);
+}
+
+.amount-options {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.amount-option {
+    padding: 8px 15px;
+    border: 1px solid var(--light-gray);
+    border-radius: var(--border-radius);
+    background: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.amount-option:hover {
+    border-color: var(--primary);
+}
+
+.amount-option.active {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.payment-methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.payment-method {
+    display: block;
+}
+
+.payment-method input {
+    display: none;
+}
+
+.payment-content {
+    padding: 15px;
+    border: 1px solid var(--light-gray);
+    border-radius: var(--border-radius);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.payment-method input:checked + .payment-content {
+    border-color: var(--primary);
+    background-color: rgba(30, 80, 255, 0.05);
+}
+
+.payment-content i {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.card-details-row {
+    display: flex;
+    gap: 15px;
+}
+
+.card-details-row > div {
+    flex: 1;
+}
+
+.input-group {
+    display: flex;
+}
+
+.input-group input {
+    flex: 1;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.input-group select {
+    width: 100px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: none;
+}
+
+.network-info {
+    display: block;
+    margin-top: 5px;
+    color: var(--gray);
+    font-size: 0.85rem;
+}
+    }</style>
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', async function() {
+            // UI Elements
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            const walletConnectBtn = document.querySelector('.wallet-connect');
+            
+            // Mobile Menu Toggle
+            hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
+        
+            // Check if MetaMask is installed
+            if (typeof window.ethereum !== 'undefined') {
+                // MetaMask is installed
+                setupWalletConnection();
+            } else {
+                // MetaMask not installed
+                walletConnectBtn.textContent = "Install MetaMask";
+                walletConnectBtn.style.backgroundColor = "#ff9500";
+                walletConnectBtn.addEventListener('click', () => {
+                    window.open('https://metamask.io/download.html', '_blank');
+                });
+            }
+        
+            async function setupWalletConnection() {
+                // Check if already connected
+                const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                
+                if (accounts.length > 0) {
+                    // Already connected
+                    updateWalletUI(accounts[0]);
+                    initializeApp(accounts[0]);
+                } else {
+                    // Not connected - set up click handler
+                    walletConnectBtn.addEventListener('click', connectWallet);
+                }
+                
+                // Listen for account changes
+                window.ethereum.on('accountsChanged', (accounts) => {
+                    if (accounts.length > 0) {
+                        updateWalletUI(accounts[0]);
+                        initializeApp(accounts[0]);
+                    } else {
+                        resetWalletUI();
+                    }
+                });
+            }
+        
+            async function connectWallet() {
+                try {
+                    walletConnectBtn.textContent = "Connecting...";
+                    walletConnectBtn.disabled = true;
+                    
+                    // Request account access
+                    const accounts = await window.ethereum.request({ 
+                        method: 'eth_requestAccounts' 
+                    });
+                    
+                    updateWalletUI(accounts[0]);
+                    initializeApp(accounts[0]);
+                    
+                } catch (error) {
+                    console.error("Connection rejected:", error);
+                    walletConnectBtn.textContent = "Connect Rejected";
+                    walletConnectBtn.style.backgroundColor = "#ff4444";
+                    setTimeout(() => {
+                        walletConnectBtn.textContent = "Connect Wallet";
+                        walletConnectBtn.style.backgroundColor = "";
+                        walletConnectBtn.disabled = false;
+                    }, 2000);
+                }
+            }
+        
+            function updateWalletUI(address) {
+                const shortAddress = `${address.slice(0, 6)}...${address.slice(-4)}`;
+                walletConnectBtn.textContent = shortAddress;
+                walletConnectBtn.style.backgroundColor = '#00c389';
+                walletConnectBtn.disabled = false;
+            }
+        
+            function resetWalletUI() {
+                walletConnectBtn.textContent = "Connect Wallet";
+                walletConnectBtn.style.backgroundColor = "";
+                walletConnectBtn.disabled = false;
+            }
+        
+            async function initializeApp(userAddress) {
+                try {
+                    // Initialize ethers.js provider
+                    const provider = new ethers.BrowserProvider(window.ethereum);
+                    const signer = await provider.getSigner();
+                    
+                    // Initialize your smart contract
+                    const contractAddress = "0xYourContractAddressHere";
+                    const contractABI = [ /* Your contract ABI array */ ];
+                    const charityContract = new ethers.Contract(contractAddress, contractABI, signer);
+                    
+                    // Load projects and setup other functionality
+                    loadProjects(charityContract);
+                    setupDonationButtons(charityContract);
+                    setupCryptoOptions(contractAddress);
+                    setupFormSubmission(charityContract);
+                    
+                } catch (error) {
+                    console.error("Initialization error:", error);
+                }
+            }
+        
+            async function loadProjects(contract) {
+                try {
+                    // Fetch projects from your backend API
+                    const response = await fetch('/api/projects');
+                    const projects = await response.json();
+                    
+                    const projectGrid = document.querySelector('.project-grid');
+                    projectGrid.innerHTML = projects.map(project => `
+                        <div class="project-card">
+                            <div class="project-image">
+                                <img src="${project.imageUrl}" alt="${project.name}">
+                                <span class="project-category">${project.category || 'Charity'}</span>
+                            </div>
+                            <div class="project-details">
+                                <h3>${project.name}</h3>
+                                <p>${project.description}</p>
+                                <div class="project-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" 
+                                             style="width: ${(project.raisedAmount / project.targetAmount) * 100}%">
+                                        </div>
+                                    </div>
+                                    <div class="progress-stats">
+                                        <span>${Math.round((project.raisedAmount / project.targetAmount) * 100)}% funded</span>
+                                        <span>${ethers.formatEther(project.raisedAmount)} ETH / ${ethers.formatEther(project.targetAmount)} ETH</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-small donate-btn" 
+                                        data-project-id="${project.id}">
+                                    Donate Now
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+                    
+                } catch (error) {
+                    console.error('Failed to load projects:', error);
+                }
+            }
+        
+            function setupDonationButtons(contract) {
+                document.addEventListener('click', async (e) => {
+                    if (e.target.classList.contains('donate-btn')) {
+                        const projectId = e.target.dataset.projectId;
+                        const amount = prompt('Enter donation amount in ETH:');
+                        if (amount) {
+                            try {
+                                const tx = await contract.donate(projectId, {
+                                    value: ethers.parseEther(amount)
+                                });
+                                await tx.wait();
+                                alert(`Donation successful! TX: ${tx.hash}`);
+                                loadProjects(contract);
+                            } catch (error) {
+                                alert(`Donation failed: ${error.message}`);
+                            }
+                        }
+                    }
+                });
+            }
+        
+            function setupCryptoOptions(ethAddress) {
+                const cryptoOptions = document.querySelectorAll('.crypto-option');
+                const cryptoAddress = document.getElementById('crypto-address');
+                
+                const addresses = {
+                    btc: '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa',
+                    eth: ethAddress,
+                    bnb: 'bnb1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjx9ml7'
+                };
+        
+                cryptoOptions.forEach(option => {
+                    option.addEventListener('click', function() {
+                        cryptoOptions.forEach(opt => opt.classList.remove('active'));
+                        this.classList.add('active');
+                        const cryptoType = this.dataset.crypto;
+                        cryptoAddress.textContent = addresses[cryptoType];
+                        cryptoAddress.nextElementSibling.textContent = 
+                            `This address accepts ${cryptoType.toUpperCase()} donations only`;
+                    });
+                });
+            }
+        
+            function setupFormSubmission(contract) {
+                const donationForm = document.querySelector('.donation-form');
+                if (donationForm) {
+                    donationForm.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        const amount = document.getElementById('amount').value;
+                        const frequency = document.getElementById('frequency').value;
+                        
+                        if (!window.ethereum.selectedAddress) {
+                            alert('Please connect your wallet first');
+                            return;
+                        }
+                        
+                        try {
+                            const ethAmount = amount / 2000; // Simplified USD to ETH conversion
+                            const tx = await contract.donate(1, { 
+                                value: ethers.parseEther(ethAmount.toString())
+                            });
+                            
+                            alert(`Thank you for your $${amount} ${frequency} donation!\nTX Hash: ${tx.hash}`);
+                        } catch (error) {
+                            alert(`Donation failed: ${error.message}`);
+                        }
+                    });
+                }
+            }
+        
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                        navLinks.classList.remove('active');
+                    }
+                });
+            });
+        });
+        
+        // Copy address function
+        function copyAddress() {
+            const address = document.getElementById('crypto-address').textContent;
+            navigator.clipboard.writeText(address).then(() => {
+                const copyBtn = document.querySelector('.btn-copy');
+                copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+                copyBtn.style.color = '#00c389';
+                setTimeout(() => {
+                    copyBtn.innerHTML = '<i class="far fa-copy"></i>';
+                    copyBtn.style.color = '';
+                }, 2000);
+            });
+        }
+        // Add this to your existing script section
+
+// Tab switching
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const tabId = this.dataset.tab;
+        
+        // Update active tab button
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Update active tab content
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        document.getElementById(`${tabId}-tab`).classList.add('active');
+    });
+});
+
+// Wallet provider selection
+document.querySelectorAll('.wallet-provider').forEach(btn => {
+    btn.addEventListener('click', async function() {
+        const walletType = this.dataset.wallet;
+        
+        try {
+            // Show loading state
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting...';
+            
+            // Simulate wallet connection
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Show donation form
+            document.querySelector('.wallet-donation-form').style.display = 'block';
+            
+            // Update UI
+            this.innerHTML = `<i class="fas fa-check-circle"></i> Connected`;
+            this.style.backgroundColor = '#00c389';
+            this.style.color = 'white';
+            
+        } catch (error) {
+            this.innerHTML = `<i class="fas fa-times-circle"></i> Failed`;
+            this.style.backgroundColor = '#ff4444';
+            this.style.color = 'white';
+            setTimeout(() => {
+                this.innerHTML = `<img src="${this.querySelector('img').src}" alt="${walletType}"><span>${this.querySelector('span').textContent}</span>`;
+                this.style.backgroundColor = '';
+                this.style.color = '';
+            }, 2000);
+        }
+    });
+});
+
+// Amount selection
+document.querySelectorAll('.amount-option').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.amount-option').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        document.getElementById('amount').value = this.dataset.amount;
+    });
+});
+
+// Payment method switching
+document.querySelectorAll('input[name="payment"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        document.getElementById('card-details').style.display = 'none';
+        document.getElementById('bank-details').style.display = 'none';
+        document.getElementById('upi-details').style.display = 'none';
+        
+        if (this.value === 'card') {
+            document.getElementById('card-details').style.display = 'block';
+        } else if (this.value === 'bank') {
+            document.getElementById('bank-details').style.display = 'block';
+        } else if (this.value === 'upi') {
+            document.getElementById('upi-details').style.display = 'block';
+        }
+    });
+});
+
+// Generate QR code (you'll need to include a QR code library)
+function generateQRCode(address) {
+    // In a real implementation, you would use a QR code library like qrcode.js
+    // This is just a placeholder
+    const qrContainer = document.getElementById('qr-code');
+    qrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(address)}" alt="QR Code">`;
+}
+
+// Initialize QR code when crypto option is selected
+document.querySelectorAll('.crypto-option').forEach(option => {
+    option.addEventListener('click', function() {
+        const address = this.dataset.crypto === 'btc' ? '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa' : 
+                         this.dataset.crypto === 'eth' ? '0x742d35Cc6634C0532925a3b844Bc454e4438f44e' : 
+                         'TYDSHJKUYTFG5678HJKL';
+        generateQRCode(address);
+    });
+});
+
+// Initialize first QR code
+generateQRCode('1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa');
+
+// Confirm donation from wallet
+document.getElementById('confirm-donation').addEventListener('click', async function() {
+    const amount = document.getElementById('crypto-amount').value;
+    const currency = document.getElementById('crypto-currency').value;
+    const projectId = document.getElementById('project-select').value;
+    
+    // if (!amount || isNaN(amount) {
+    //     alert('Please enter a valid amount');
+    //     return;
+    // }
+    
+    try {
+        // In a real implementation, this would interact with your smart contract
+        alert(`Donating ${amount} ${currency} to project ${projectId}`);
+        // const tx = await contract.donate(projectId, { value: ethers.parseEther(amount) });
+        // await tx.wait();
+        // alert('Donation successful!');
+    } catch (error) {
+        alert('Donation failed: ' + error.message);
+    }
+});
+    </script>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">SARKARI<span>Charity</span></a>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#donate">Donate</a>
+                <a href="#transparency">Transparency</a>
+                <a href="#contact">Contact</a>
+                <button class="btn wallet-connect">Connect Wallet</button>
+            </div>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Transparent Charity Powered by Blockchain</h1>
+                <p>Every donation is traceable on the blockchain, ensuring 100% transparency in how funds are used to change lives.</p>
+                <div class="hero-buttons">
+                    <a href="#donate" class="btn btn-primary">Donate Now</a>
+                    <a href="#projects" class="btn btn-secondary">Explore Projects</a>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <h3>$12.8M+</h3>
+                    <p>Total Donations</p>
+                </div>
+                <div class="stat-item">
+                    <h3>56</h3>
+                    <p>Projects Funded</p>
+                </div>
+                <div class="stat-item">
+                    <h3>1.2M+</h3>
+                    <p>Lives Impacted</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section about">
+        <div class="container">
+            <h2 class="section-title">About Our Foundation</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>We leverage blockchain technology to create a transparent, efficient, and borderless charitable ecosystem. Our platform ensures that every donation is traceable from donor to beneficiary.</p>
+                    <p>Founded in 2021, we've been at the forefront of combining cryptocurrency with humanitarian efforts to maximize impact while maintaining complete accountability.</p>
+                    <ul class="about-features">
+                        <li><i class="fas fa-check-circle"></i> 100% transparent transactions</li>
+                        <li><i class="fas fa-check-circle"></i> Low administrative costs</li>
+                        <li><i class="fas fa-check-circle"></i> Global reach with crypto donations</li>
+                    </ul>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1521791055366-0d553872125f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Charity work">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section projects">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="project-grid">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Education project">
+                        <span class="project-category">Education</span>
+                    </div>
+                    <div class="project-details">
+                        <h3>Blockchain Schools Initiative</h3>
+                        <p>Providing blockchain-powered education to underprivileged children in developing countries.</p>
+                        <div class="project-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%"></div>
+                            </div>
+                            <div class="progress-stats">
+                                <span>75% funded</span>
+                                <span>$150,000/$200,000</span>
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-small">Donate Now</a>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Health project">
+                        <span class="project-category">Health</span>
+                    </div>
+                    <div class="project-details">
+                        <h3>Crypto for Clean Water</h3>
+                        <p>Building water purification systems in communities without access to clean drinking water.</p>
+                        <div class="project-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%"></div>
+                            </div>
+                            <div class="progress-stats">
+                                <span>45% funded</span>
+                                <span>$90,000/$200,000</span>
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-small">Donate Now</a>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Environment project">
+                        <span class="project-category">Environment</span>
+                    </div>
+                    <div class="project-details">
+                        <h3>Green Blockchain Initiative</h3>
+                        <p>Planting trees and offsetting carbon emissions from blockchain operations.</p>
+                        <div class="project-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 92%"></div>
+                            </div>
+                            <div class="progress-stats">
+                                <span>92% funded</span>
+                                <span>$184,000/$200,000</span>
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-small">Donate Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="section-footer">
+                <a href="#" class="btn btn-secondary">View All Projects</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Donation Section -->
+<section id="donate" class="section donate">
+    <div class="container">
+        <h2 class="section-title">Make a Donation</h2>
+        <div class="donation-options">
+            <div class="donation-card crypto-donation">
+                <h3><i class="fab fa-bitcoin"></i> Crypto Donation</h3>
+                <p>Donate with cryptocurrency for fast, borderless transactions with minimal fees.</p>
+                
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="direct">Direct Transfer</button>
+                    <button class="tab-btn" data-tab="wallet">Wallet Connect</button>
+                </div>
+                
+                <div class="tab-content active" id="direct-tab">
+                    <div class="crypto-options">
+                        <div class="crypto-option active" data-crypto="btc">
+                            <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="Bitcoin">
+                            <span>BTC</span>
+                        </div>
+                        <div class="crypto-option" data-crypto="eth">
+                            <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="Ethereum">
+                            <span>ETH</span>
+                        </div>
+                        <div class="crypto-option" data-crypto="usdt">
+                            <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" alt="USDT">
+                            <span>USDT</span>
+                        </div>
+                    </div>
+                    
+                    <div class="wallet-address">
+                        <p>Send to this address:</p>
+                        <div class="address-box">
+                            <code id="crypto-address">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</code>
+                            <button class="btn-copy" onclick="copyAddress()"><i class="far fa-copy"></i></button>
+                        </div>
+                        <small class="network-info">Network: Bitcoin (BTC)</small>
+                        <div class="qr-code-container">
+                            <div id="qr-code"></div>
+                            <p class="qr-instruction">Scan to send crypto</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="wallet-tab">
+                    <div class="wallet-connect-section">
+                        <p>Connect your wallet to donate directly:</p>
+                        <div class="wallet-options">
+                            <button class="wallet-provider" data-wallet="metamask">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask">
+                                <span>MetaMask</span>
+                            </button>
+                            <button class="wallet-provider" data-wallet="walletconnect">
+                                <img src="https://walletconnect.com/walletconnect-logo.png" alt="WalletConnect">
+                                <span>WalletConnect</span>
+                            </button>
+                            <button class="wallet-provider" data-wallet="coinbase">
+                                <img src="https://cryptologos.cc/logos/coinbase-wallet-cbwallet-logo.png" alt="Coinbase Wallet">
+                                <span>Coinbase</span>
+                            </button>
+                        </div>
+                        
+                        <div class="wallet-donation-form" style="display: none;">
+                            <div class="form-group">
+                                <label for="crypto-amount">Amount</label>
+                                <div class="input-group">
+                                    <input type="number" id="crypto-amount" min="0.01" step="0.01" placeholder="0.00">
+                                    <select id="crypto-currency">
+                                        <option value="eth">ETH</option>
+                                        <option value="usdt">USDT</option>
+                                        <option value="usdc">USDC</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="project-select">Select Project</label>
+                                <select id="project-select">
+                                    <option value="1">Blockchain Schools Initiative</option>
+                                    <option value="2">Crypto for Clean Water</option>
+                                    <option value="3">Green Blockchain Initiative</option>
+                                </select>
+                            </div>
+                            <button type="button" class="btn btn-primary" id="confirm-donation">Confirm Donation</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="donation-card fiat-donation">
+                <h3><i class="fas fa-dollar-sign"></i> Fiat Donation</h3>
+                <p>Donate with traditional currency via credit card or bank transfer.</p>
+                
+                <form class="donation-form">
+                    <div class="form-group">
+                        <label for="amount">Amount (USD)</label>
+                        <div class="amount-options">
+                            <button type="button" class="amount-option" data-amount="25">$25</button>
+                            <button type="button" class="amount-option" data-amount="50">$50</button>
+                            <button type="button" class="amount-option" data-amount="100">$100</button>
+                            <button type="button" class="amount-option" data-amount="250">$250</button>
+                            <input type="number" id="amount" min="10" value="50" placeholder="Custom amount">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="frequency">Frequency</label>
+                        <select id="frequency">
+                            <option value="one-time">One-time</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="yearly">Yearly</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="payment-method">Payment Method</label>
+                        <div class="payment-methods">
+                            <label class="payment-method">
+                                <input type="radio" name="payment" value="card" checked>
+                                <div class="payment-content">
+                                    <i class="fab fa-cc-visa"></i>
+                                    <i class="fab fa-cc-mastercard"></i>
+                                    <span>Credit/Debit Card</span>
+                                </div>
+                            </label>
+                            <label class="payment-method">
+                                <input type="radio" name="payment" value="bank">
+                                <div class="payment-content">
+                                    <i class="fas fa-university"></i>
+                                    <span>Bank Transfer</span>
+                                </div>
+                            </label>
+                            <label class="payment-method">
+                                <input type="radio" name="payment" value="upi">
+                                <div class="payment-content">
+                                    <i class="fas fa-mobile-alt"></i>
+                                    <span>UPI (India)</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" id="card-details" style="display: block;">
+                        <label for="card-number">Card Number</label>
+                        <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19">
+                        
+                        <div class="card-details-row">
+                            <div>
+                                <label for="card-expiry">Expiry Date</label>
+                                <input type="text" id="card-expiry" placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div>
+                                <label for="card-cvc">CVC</label>
+                                <input type="text" id="card-cvc" placeholder="123" maxlength="4">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" id="bank-details" style="display: none;">
+                        <p>Bank transfer details will be shown after form submission.</p>
+                    </div>
+                    
+                    <div class="form-group" id="upi-details" style="display: none;">
+                        <label for="upi-id">UPI ID</label>
+                        <input type="text" id="upi-id" placeholder="yourname@upi">
+                        <small>We'll send you a payment request to your UPI app</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email (for receipt)</label>
+                        <input type="email" id="email" placeholder="your@email.com">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Proceed to Payment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Transparency Section -->
+    <section id="transparency" class="section transparency">
+        <div class="container">
+            <h2 class="section-title">Transparency Portal</h2>
+            <div class="transparency-content">
+                <div class="transparency-text">
+                    <h3>Every Transaction On-Chain</h3>
+                    <p>We publish all donations and expenditures on the blockchain for complete transparency. Verify our transactions yourself using the blockchain explorer.</p>
+                    <div class="transparency-stats">
+                        <div class="stat-item">
+                            <h4>2,458</h4>
+                            <p>Donations Tracked</p>
+                        </div>
+                        <div class="stat-item">
+                            <h4>100%</h4>
+                            <p>Funds Accounted For</p>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-secondary">View Blockchain Explorer</a>
+                </div>
+                <div class="transparency-image">
+                    <img src="https://images.unsplash.com/photo-1639762681057-408e52192e55?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Blockchain transparency">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Blockchain Charity</h4>
+                    <p>Leveraging technology for transparent, efficient, and impactful giving.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#projects">Our Projects</a></li>
+                        <li><a href="#transparency">Transparency</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> contact@blockchaincharity.org</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Blockchain Ave, Crypto City</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Blockchain Charity Foundation. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
